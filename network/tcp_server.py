@@ -1,4 +1,5 @@
 import socket
+import json
 
 HOST = '127.0.0.1'
 PORT = 8080
@@ -9,7 +10,14 @@ def handle_client(conn, addr):
             data = conn.recv(1024)
             if not data:
                 break
-            conn.sendall(data)
+            
+            request = json.loads(data.decode('utf-8'))
+            
+            response = {
+                "status": "success",
+                "data_received": request
+            }
+            conn.sendall(json.dumps(response).encode('utf-8'))
 
 def start_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:

@@ -45,3 +45,39 @@ def determinant_3x3(matrix):
     """Return the determinant of a valid 3x3 matrix."""
     validated = validate_matrix_3x3(matrix)
     return _determinant_from_validated(validated)
+
+
+def _inverse_from_validated(matrix, determinant):
+    if math.isclose(determinant, 0.0, abs_tol=1e-12):
+        return None
+
+    a, b, c = matrix[0]
+    d, e, f = matrix[1]
+    g, h, i = matrix[2]
+
+    adjugate = [
+        [e * i - f * h, c * h - b * i, b * f - c * e],
+        [f * g - d * i, a * i - c * g, c * d - a * f],
+        [d * h - e * g, b * g - a * h, a * e - b * d],
+    ]
+    return [
+        [value / determinant for value in row]
+        for row in adjugate
+    ]
+
+
+def inverse_3x3(matrix):
+    """Return the inverse of a valid 3x3 matrix, or None when it is singular."""
+    validated = validate_matrix_3x3(matrix)
+    determinant = _determinant_from_validated(validated)
+    return _inverse_from_validated(validated, determinant)
+
+
+def matrix_3x3(matrix):
+    """Return the determinant and inverse for one validated 3x3 matrix."""
+    validated = validate_matrix_3x3(matrix)
+    determinant = _determinant_from_validated(validated)
+    return {
+        "determinant": determinant,
+        "inverse": _inverse_from_validated(validated, determinant),
+    }

@@ -35,12 +35,14 @@ def start_server():
         server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server_socket.bind((HOST, PORT))
         server_socket.listen()
+        print("Server aktif")
         
         while True:
             try:
                 conn, addr = server_socket.accept()
                 handle_client(conn, addr)
             except KeyboardInterrupt:
+                print("Server nonaktif")
                 break
 
 if __name__ == "__main__":

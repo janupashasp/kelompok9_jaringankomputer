@@ -1,4 +1,3 @@
-"""Fault injection utilities for server responses."""
 
 import copy
 import random

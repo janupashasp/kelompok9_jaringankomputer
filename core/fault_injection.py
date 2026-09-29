@@ -18,7 +18,8 @@ def make_incorrect_result(service: str, correct_result: Any) -> Any:
 
     if service == "matrix_3x3":
         corrupted = copy.deepcopy(correct_result)
-        corrupted["determinant"] = float(corrupted["determinant"]) + 1.0
+        determinant = corrupted["determinant"]
+        corrupted["determinant"] = -1.0 if determinant >= 0 else 1.0
         return corrupted
 
     raise ValueError("cannot corrupt unknown service: %s" % service)

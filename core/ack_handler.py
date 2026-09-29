@@ -8,7 +8,10 @@ def validate_ack(
 
     if pending is None:
         return "unexpected_ack"
-
+    
+    if not isinstance(message, dict):
+        return "invalid_ack"
+    
     expected_request_id, _ = pending
 
     if message.get("type") != "ack":

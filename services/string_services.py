@@ -12,7 +12,6 @@ def char_count(text):
             "result": None,
             "message": "Input cannot be None"
         }
-        
     count = len(text)    
     return {
         "status": "success",

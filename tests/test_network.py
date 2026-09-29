@@ -18,7 +18,7 @@ class TestNetwork(unittest.TestCase):
         )
         for _ in range(20):
             try:
-                with socket.create_connection(("127.0.0.1", 8080), timeout=0.1):
+                with socket.create_connection(("127.0.0.1", 5001), timeout=0.1):
                     return
             except OSError:
                 time.sleep(0.1)
@@ -29,7 +29,7 @@ class TestNetwork(unittest.TestCase):
         cls.server.wait(timeout=2)
 
     def test_valid_json_request(self):
-        with socket.create_connection(("127.0.0.1", 8080), timeout=2) as s:
+        with socket.create_connection(("127.0.0.1", 5001), timeout=2) as s:
             reader = s.makefile("r")
             request = {
                 "type": "request",
@@ -54,7 +54,7 @@ class TestNetwork(unittest.TestCase):
             self.assertEqual(ack_response["status"], "accepted")
 
     def test_invalid_json_request(self):
-        with socket.create_connection(("127.0.0.1", 8080), timeout=2) as s:
+        with socket.create_connection(("127.0.0.1", 5001), timeout=2) as s:
             reader = s.makefile("r")
 
             s.sendall(b"Ini bukan JSON\n")

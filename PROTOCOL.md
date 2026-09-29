@@ -2,7 +2,7 @@
 
 ## Connection
 - Transport: TCP
-- Port: `8080`
+- Port: `5001`
 - Format: JSON UTF-8
 - Delimiter: newline (`\n`)
 

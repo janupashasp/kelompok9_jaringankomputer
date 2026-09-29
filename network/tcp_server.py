@@ -8,7 +8,7 @@ from services.matrix_services import matrix_3x3
 from services.string_services import char_count, word_count, reverse, remove_vowels
 
 HOST = '0.0.0.0'
-PORT = 8080     
+PORT = 5001
 ERROR_RATE = 0.30
 
 SERVICE_NAMES = ("char_count", "word_count", "reverse", "remove_vowels", "matrix_3x3")

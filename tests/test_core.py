@@ -19,6 +19,19 @@ class TestFaultInjection(unittest.TestCase):
         result = make_incorrect_result("char_count", 10)
         self.assertNotEqual(result, 10)
 
+    def test_matrix_fault_changes_result_without_mutating_original(self):
+        for determinant in (1e16, -1e16, 0.0, 1e-16):
+            with self.subTest(determinant=determinant):
+                original = {
+                    "determinant": determinant,
+                    "inverse": None,
+                }
+
+                result = make_incorrect_result("matrix_3x3", original)
+
+                self.assertNotEqual(result["determinant"], determinant)
+                self.assertEqual(original["determinant"], determinant)
+
 
 class TestAckHandler(unittest.TestCase):
 
@@ -46,6 +59,26 @@ class TestAckHandler(unittest.TestCase):
             validate_ack(message, pending),
             "ack_request_id_mismatch"
         )
+
+    def test_rejects_non_dictionary_ack(self):
+        pending = ("req-001", "reverse")
+
+        for message in (None, [], 42, "ack"):
+            with self.subTest(message=message):
+                self.assertEqual(
+                    validate_ack(message, pending),
+                    "invalid_ack",
+                )
+
+    def test_accepts_ack_reporting_incorrect_result(self):
+        pending = ("req-001", "reverse")
+        message = {
+            "type": "ack",
+            "request_id": "req-001",
+            "correct": False,
+        }
+
+        self.assertIsNone(validate_ack(message, pending))
 
 
 class TestServiceRegistry(unittest.TestCase):

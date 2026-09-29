@@ -6,7 +6,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from services.string_services import char_count, word_count, reverse, remove_vowels
 
-
 class TestStringServices(unittest.TestCase):
     def check_cases(self, service, cases):
         for value, expected in cases:
